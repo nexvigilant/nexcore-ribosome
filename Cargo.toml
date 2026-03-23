@@ -1,0 +1,26 @@
+
+[package]
+name = "nexcore-ribosome"
+version = "1.0.0"
+edition = "2024"
+rust-version = "1.85"
+license = "LicenseRef-Proprietary"
+authors = ["NexVigilant Team <team@nexvigilant.com>"]
+description = "Schema contract registry with drift detection — translates inferred schemas into enforceable contracts"
+keywords = ["schema", "contracts", "drift", "validation", "ribosome"]
+categories = ["data-structures", "algorithms"]
+
+# Copyright © 2026 NexVigilant LLC. All Rights Reserved.
+# Intellectual Property of Matthew Alexander Campion, PharmD
+
+[dependencies]
+nexcore-error = { workspace = true }
+nexcore-lex-primitiva = { version = "0.1.0", path = "../nexcore-lex-primitiva", registry = "nexcore" }
+serde = { version = "1.0.204", features = ["derive"] }
+serde_json = { version = "1.0.120" }
+nexcore-chrono = { workspace = true }
+nexcore-transcriptase = { version = "1.0.0", path = "../nexcore-transcriptase", registry = "nexcore" }
+
+
+[lints]
+workspace = true
