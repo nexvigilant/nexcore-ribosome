@@ -1,48 +1,40 @@
 # nexcore-ribosome
 
-Schema Contract Registry with Drift Detection for the NexVigilant Core kernel. It implements the **Ribosome** model, translating inferred schemas (from `nexcore-transcriptase`) into enforceable contracts and detecting statistical or structural drift in data over time.
+Part of the [NexVigilant](https://nexvigilant.com) pharmacovigilance platform.
 
-## Intent
-To provide a persistent storage and enforcement layer for data schemas. It allows the system to establish "baselines" for API responses or data records and automatically flags when future data deviates significantly from those baselines, ensuring system stability.
+## About NexVigilant
 
-## T1 Grounding (Lex Primitiva)
-Dominant Primitives:
-- **κ (Comparison)**: The primary primitive for computing drift scores between baseline and observed schemas.
-- **σ (Sequence)**: Management of the translation pipeline from `Schema` to `Contract`.
-- **π (Persistence)**: Durable storage of schema contracts and their version history.
-- **∂ (Boundary)**: Enforces drift thresholds (default: 0.25) to trigger safety signals.
-- **N (Quantity)**: Quantified drift scores based on type, range, and structural shifts.
+NexVigilant makes pharmacovigilance accessible. We build open computation tools for drug safety signal detection, causality assessment, and regulatory intelligence — because patient safety knowledge should be available to everyone willing to learn.
 
-## Drift Score Formula
-`drift = (type_drift × 0.5) + (range_drift × 0.3) + (structure_drift × 0.2)`
-- **Type Drift**: Mismatches between kinds (e.g., Int → Str).
-- **Range Drift**: Shifts in observed numeric ranges or string lengths.
-- **Structure Drift**: Additions or removals of fields in records.
+**Live tools:** [mcp.nexvigilant.com](https://mcp.nexvigilant.com) — 193 MCP tools for AI-powered pharmacovigilance, free to connect.
 
-## SOPs for Use
-### Registering a Contract
-```rust
-use nexcore_ribosome::Ribosome;
+## Installation
 
-let mut rb = Ribosome::new();
-let schema = nexcore_transcriptase::infer(&json_sample);
-rb.store_contract("icsr-v1", schema)?;
+```toml
+[dependencies]
+nexcore-ribosome = { git = "https://github.com/nexvigilant/nexcore-ribosome" }
 ```
 
-### Validating for Drift
-```rust
-if let Some(result) = rb.validate("icsr-v1", &new_json_data) {
-    if result.drift_detected {
-        println!("Drift Score: {:.3}", result.drift_score);
-        // result.violations contains specific field-level drift info
-    }
-}
-```
-
-## Key Components
-- **Contract**: The baseline schema along with observation counts and metadata.
-- **DriftResult**: The outcome of a validation run, containing scores and violations.
-- **DriftSignal**: A Guardian-compatible summary of a drift event for orchestration.
+> **Note:** This crate was developed as part of the [nexcore](https://github.com/nexvigilant) workspace. Some dependencies may reference workspace-level configuration. See individual `Cargo.toml` for details.
 
 ## License
-Proprietary. Copyright (c) 2026 NexVigilant LLC. All Rights Reserved.
+
+**Personal, non-commercial use only.** See [LICENSE](LICENSE) for full terms.
+
+Organizations of any kind must have explicit written permission for use.
+Contact [matthew@nexvigilant.com](mailto:matthew@nexvigilant.com) for licensing.
+
+## Contributing
+
+Contributions are welcome under the following terms:
+
+1. **Fork & PR.** Fork this repository, make your changes, and submit a pull request.
+2. **CLA.** By submitting a pull request, you agree that your contributions become the property of NexVigilant LLC under the same license terms.
+3. **Code quality.** All Rust code must pass `cargo clippy -- -D warnings` and `cargo fmt --check`.
+4. **Tests.** New functionality should include tests. Run `cargo test --lib` before submitting.
+
+For questions or discussion, open an issue or reach out at [matthew@nexvigilant.com](mailto:matthew@nexvigilant.com).
+
+---
+
+Built by [NexVigilant LLC](https://nexvigilant.com) — Pharmacovigilance for NexVigilants.
